@@ -1,17 +1,58 @@
-# assignment
+# Hotel & Resort Booking App
 
-A new Flutter project.
+A modern Flutter application for browsing and booking hotels and resorts, built with a clean UI and efficient state management.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- **Dashboard:** Overview of featured hotels and recent bookings.
+- **Hotel & Resort Details:** Comprehensive information about properties, including amenities and reviews.
+- **Booking Flow:** Seamless interface for selecting dates and booking stays.
+- **User Accounts:** Personal profiles and booking history management.
+- **Dark Theme:** Sleek dark mode design for a premium look and feel.
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠 Tech Stack
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- **Framework:** Flutter
+- **State Management:** Provider
+- **Theming:** Custom Material 3 Dark Theme
+- **Fonts:** Google Fonts
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📁 Project Structure
+
+```text
+lib/
+├── core/           # App themes, constants, and utilities
+├── providers/      # State management logic (ChangeNotifiers)
+├── screens/        # UI Screens (Home, Dashboard, Booking, etc.)
+└── widgets/        # Reusable UI components (BottomNavBar, etc.)
+```
+
+## 🛠 Getting Started
+
+### Prerequisites
+
+- Flutter SDK (latest stable version)
+- Android Studio / VS Code
+- Android/iOS Emulator or Physical Device
+
+### Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <https://github.com/Hariom-1997/assignment.git>
+   cd assignment
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Run the app:**
+   ```bash
+   flutter run
+   ```
+
+## 📸 Assets
+Images used in the app are located in the `assets/images/` directory.
+

@@ -139,7 +139,6 @@ class _HotelResortScreenState extends State<HotelResortScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Host Row
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [

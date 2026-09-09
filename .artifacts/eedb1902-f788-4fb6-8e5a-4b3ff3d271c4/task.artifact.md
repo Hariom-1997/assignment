@@ -1,0 +1,3 @@
+- [x] Create/Update `README.md` with project details
+- [x] Verify `README.md` content
+- [x] Create walkthrough artifact
