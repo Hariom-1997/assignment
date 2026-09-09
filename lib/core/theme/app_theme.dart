@@ -14,7 +14,7 @@ class AppTheme {
         secondary: AppColor.primaryBlue,
         surface: AppColor.blueGrey,
       ),
-      textTheme: GoogleFonts.poppinsTextTheme(TextTheme(
+      textTheme: GoogleFonts.latoTextTheme(TextTheme(
         displayLarge: AppTypography.h0,
         headlineMedium: AppTypography.h2,
         titleLarge: AppTypography.titleLarge,

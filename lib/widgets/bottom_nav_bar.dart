@@ -1,22 +1,20 @@
 import 'package:assignment/core/constant/app_strings.dart';
-import 'package:assignment/core/base/base_view_controller.dart';
+import 'package:assignment/providers/base_provider.dart';
 import 'package:assignment/core/theme/app_color.dart';
 import 'package:assignment/core/theme/app_radius.dart';
 import 'package:assignment/core/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavBar extends StatelessWidget {
   final Function(String? activeScreen) onChanged;
-  BottomNavBar({super.key, required this.onChanged});
+  const BottomNavBar({super.key, required this.onChanged});
 
-  final controller = Get.find<BaseViewController>();
-
-  final List<Map<String, dynamic>> _items = [
+  final List<Map<String, dynamic>> _items = const [
     {'icon': Icons.home_outlined, 'title': AppStrings.dashboard},
     {'icon': Icons.airplanemode_on_rounded, 'title': AppStrings.hotelResort},
     {'icon': Icons.calendar_month, 'title': AppStrings.bookingHotel},
-    {'icon': Icons.verified_user_outlined, 'title': AppStrings.account},
+    {'icon': Icons.person, 'title': AppStrings.account},
   ];
 
   static const double _spacing = 10;
@@ -24,6 +22,8 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<BaseProvider>();
+
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
@@ -41,10 +41,10 @@ class BottomNavBar extends StatelessWidget {
               (_inactiveWidth * inactiveCount) -
               totalSpacing;
 
-          return Obx(() => Row(
+          return Row(
             children: List.generate(itemCount, (index) {
               final item = _items[index];
-              final bool isActive = item['title'] == controller.activeScreen.value;
+              final bool isActive = item['title'] == controller.activeScreen;
 
               return Padding(
                 padding: EdgeInsets.only(
@@ -65,7 +65,7 @@ class BottomNavBar extends StatelessWidget {
                 ),
               );
             }),
-          ));
+          );
         },
       ),
     );

@@ -1,23 +1,24 @@
-import 'package:assignment/core/base/base_view_controller.dart';
 import 'package:assignment/core/constant/app_strings.dart';
 import 'package:assignment/core/theme/app_radius.dart';
 import 'package:assignment/core/theme/app_shadows.dart';
 import 'package:assignment/core/theme/app_spacing.dart';
 import 'package:assignment/core/theme/app_typography.dart';
-import 'package:assignment/features/home/widgets/search_bar.dart';
+import 'package:assignment/providers/base_provider.dart';
+import 'package:assignment/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
-import '../../../core/theme/app_color.dart';
-import '../../../core/widgets/custom_text.dart';
+import '../core/theme/app_color.dart';
+import '../core/widgets/custom_text.dart';
 import '../widgets/location_card.dart';
 
-class DashboardView extends StatelessWidget {
-  final BaseViewController controller;
-  const DashboardView({super.key, required this.controller});
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<BaseProvider>();
+    
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -31,14 +32,14 @@ class DashboardView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppSpacing.h20,
-            headerBar(),
+            headerBar(controller),
             AppSpacing.h32,
             SearchBox(
               onChanged: (value) => controller.filterLocations(value),
             ),
             AppSpacing.h32,
             Expanded(
-              child: Obx(() => _buildLocationCardsList()),
+              child: _buildLocationCardsList(controller),
             ),
           ],
         ),
@@ -46,7 +47,7 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-  Widget headerBar() => Row(
+  Widget headerBar(BaseProvider controller) => Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       CustomText(
@@ -55,7 +56,9 @@ class DashboardView extends StatelessWidget {
         fontWeight: AppTypography.hTitle.fontWeight,
       ),
         InkWell(
-          onTap: () => controller.animationController.forward(),
+          onTap: () {
+            controller.animationController?.forward();
+          },
           borderRadius: AppRadius.br30,
           child: Container(
             height: 48,
@@ -81,7 +84,7 @@ class DashboardView extends StatelessWidget {
       ],
     );
 
-  Widget _buildLocationCardsList() {
+  Widget _buildLocationCardsList(BaseProvider controller) {
     return ListView.separated(
       padding: EdgeInsets.zero,
       physics: const BouncingScrollPhysics(),

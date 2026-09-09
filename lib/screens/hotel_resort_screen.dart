@@ -3,26 +3,24 @@ import 'package:assignment/core/constant/asset_constant.dart';
 import 'package:assignment/core/theme/app_color.dart';
 import 'package:assignment/core/theme/app_radius.dart';
 import 'package:assignment/core/theme/app_spacing.dart';
+import 'package:assignment/providers/hotel_resort_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:assignment/features/home/controllers/hotel_resort_controller.dart';
-import 'package:get/get.dart';
-
-class HotelResortView extends StatefulWidget {
-  const HotelResortView({super.key});
+class HotelResortScreen extends StatefulWidget {
+  const HotelResortScreen({super.key});
 
   @override
-  State<HotelResortView> createState() => _HotelResortViewState();
+  State<HotelResortScreen> createState() => _HotelResortScreenState();
 }
 
-class _HotelResortViewState extends State<HotelResortView> {
+class _HotelResortScreenState extends State<HotelResortScreen> {
   final PageController _pageController = PageController();
-  final controller = Get.put(HotelResortController());
 
   final List<String> hotelImages = [
-    AppAssets.hotelUrl1,
-    AppAssets.hotelUrl2,
-    AppAssets.hotelUrl3,
+    AppAssets.hotel1,
+    AppAssets.hotel2,
+    AppAssets.hotel3,
   ];
 
   @override
@@ -34,6 +32,7 @@ class _HotelResortViewState extends State<HotelResortView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final controller = context.watch<HotelResortProvider>();
 
     return Container(
       color: AppColor.scaffoldBackground,
@@ -44,7 +43,6 @@ class _HotelResortViewState extends State<HotelResortView> {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                // 1. HOTEL IMAGE CAROUSEL
                 SizedBox(
                   height: size.height * 0.40,
                   child: PageView.builder(
@@ -73,7 +71,6 @@ class _HotelResortViewState extends State<HotelResortView> {
                   ),
                 ),
 
-                // Dark overlay gradient
                 Positioned.fill(
                   child: Container(
                     decoration: BoxDecoration(
@@ -81,9 +78,9 @@ class _HotelResortViewState extends State<HotelResortView> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          AppColor.black.withValues(alpha: 0.3),
+                          AppColor.black.withOpacity(0.35),
                           AppColor.transparent,
-                          AppColor.black.withValues(alpha: 0.5),
+                          AppColor.black.withOpacity(0.55),
                         ],
                       ),
                     ),
@@ -95,18 +92,18 @@ class _HotelResortViewState extends State<HotelResortView> {
                   bottom: 45,
                   left: 0,
                   right: 0,
-                  child: Obx(() => Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
                       hotelImages.length,
-                          (index) {
+                      (index) {
                         return AnimatedContainer(
                           duration: const Duration(milliseconds: 250),
                           margin: const EdgeInsets.symmetric(horizontal: 4),
                           height: 6,
-                          width: controller.currentImage.value == index ? 32 : 20,
+                          width: controller.currentImage == index ? 32 : 20,
                           decoration: BoxDecoration(
-                            color: controller.currentImage.value == index
+                            color: controller.currentImage == index
                                 ? AppColor.orangeAccent
                                 : AppColor.white70,
                             borderRadius: AppRadius.br25,
@@ -114,7 +111,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                         );
                       },
                     ),
-                  )),
+                  ),
                 ),
 
                 // 3. FLOATING CARD VIEW
@@ -131,7 +128,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                         borderRadius: AppRadius.br30,
                         boxShadow: [
                           BoxShadow(
-                            color: AppColor.black.withValues(alpha: 0.2),
+                            color: AppColor.black.withOpacity(0.2),
                             blurRadius: 14,
                             offset: const Offset(0, 2),
                           ),
@@ -169,7 +166,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                                     AppStrings.hostedBy,
                                     style: TextStyle(
                                       color: AppColor.white,
-                                      fontSize: 15,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       height: 1.3,
                                     ),
@@ -196,7 +193,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                                   AppStrings.hotelRating,
                                   style: TextStyle(
                                     color: AppColor.white,
-                                    fontSize: 14,
+                                    fontSize: 15, 
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -208,7 +205,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                                     AppStrings.hotelReviews,
                                     style: TextStyle(
                                       color: AppColor.white70,
-                                      fontSize: 13,
+                                      fontSize: 14, 
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -219,7 +216,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                                   AppStrings.bookingDateRange,
                                   style: TextStyle(
                                     color: AppColor.white70,
-                                    fontSize: 13,
+                                    fontSize: 14, 
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -254,7 +251,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                                     AppStrings.hotelAddress,
                                     style: TextStyle(
                                       color: AppColor.greyLightText,
-                                      fontSize: 13.5,
+                                      fontSize: 14.5, 
                                       height: 1.45,
                                     ),
                                     maxLines: 2,
@@ -275,9 +272,6 @@ class _HotelResortViewState extends State<HotelResortView> {
             // Spacing to offset stacked card height
             const SizedBox(height: 200),
 
-            // ------------------------------------------------
-            // DESCRIPTION SECTION
-            // ------------------------------------------------
             Container(
               color: AppColor.scaffoldBackground,
               padding: AppSpacing.hotelDescriptionPadding,
@@ -288,7 +282,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                     AppStrings.description,
                     style: TextStyle(
                       color: AppColor.white,
-                      fontSize: 22,
+                      fontSize: 23, 
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -297,7 +291,7 @@ class _HotelResortViewState extends State<HotelResortView> {
                     AppStrings.hotelFullDescription,
                     style: TextStyle(
                       color: AppColor.greyDescription,
-                      fontSize: 14.5,
+                      fontSize: 15.5, 
                       height: 1.6,
                     ),
                   ),

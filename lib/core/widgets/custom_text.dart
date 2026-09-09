@@ -1,6 +1,7 @@
 import 'package:assignment/core/theme/app_color.dart';
 import 'package:assignment/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomText extends StatelessWidget {
   final String text;
@@ -15,9 +16,9 @@ class CustomText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      maxLines:maxLines ,
-      style: TextStyle(
-        color:color?? AppColor.grey,
+      maxLines: maxLines,
+      style: GoogleFonts.lato(
+        color: color ?? AppColor.grey,
         fontSize: fontSize ?? AppTypography.bodyMedium.fontSize,
         fontWeight: fontWeight ?? AppTypography.bodyMedium.fontWeight,
       ),

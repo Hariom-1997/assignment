@@ -1,22 +1,22 @@
 import 'package:assignment/core/constant/app_strings.dart';
 import 'package:assignment/core/theme/app_radius.dart';
-import 'package:assignment/core/theme/app_shadows.dart';
 import 'package:assignment/core/theme/app_spacing.dart';
 import 'package:assignment/core/theme/app_typography.dart';
 import 'package:assignment/core/theme/app_color.dart';
 import 'package:assignment/core/widgets/custom_text.dart';
+import 'package:assignment/providers/booking_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:assignment/features/home/controllers/booking_controller.dart';
-import 'package:get/get.dart';
+import '../core/theme/app_shadows.dart';
 
-class BookHotelView extends StatelessWidget {
-  BookHotelView({super.key});
-
-  final controller = Get.put(BookingController());
+class BookHotelScreen extends StatelessWidget {
+  const BookHotelScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<BookingProvider>();
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -27,11 +27,11 @@ class BookHotelView extends StatelessWidget {
               const CalendarHeader(),
               const DateRange(),
               AppSpacing.h32,
-              Obx(() => CalendarWidget(
-                currentMonth: controller.currentMonth.value,
+              CalendarWidget(
+                currentMonth: controller.currentMonth,
                 onPrevious: controller.previousMonth,
                 onNext: controller.nextMonth,
-              )),
+              ),
             ],
           ),
         ),
@@ -171,7 +171,7 @@ class CalendarGrid extends StatelessWidget {
         children: [
           MonthYear(currentMonth: currentMonth),
           AppSpacing.h24,
-          WeekdayHeader(),
+          const WeekdayHeader(),
           AppSpacing.h24,
           GridView.builder(
             shrinkWrap: true,

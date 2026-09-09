@@ -1,5 +1,5 @@
 import 'package:assignment/core/constant/asset_constant.dart';
-import 'package:assignment/core/base/base_view_controller.dart';
+import 'package:assignment/providers/base_provider.dart';
 import 'package:assignment/core/constant/app_strings.dart';
 import 'package:assignment/core/theme/app_color.dart';
 import 'package:assignment/core/theme/app_radius.dart';
@@ -8,66 +8,89 @@ import 'package:assignment/core/theme/app_typography.dart';
 import 'package:assignment/core/widgets/custom_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
-  CustomDrawer({super.key});
-
-  final controller = Get.find<BaseViewController>();
+  const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<BaseProvider>();
+
     return SafeArea(
-      child: Obx(() => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-         userProfile(),
-          AppSpacing.h20,
-          accountSettingHeading(),
-          drawerTile(title: AppStrings.notification,activeKey: controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.notification;
-            controller.update();
-          },trailing: notificationBadge("12")),
-          drawerTile(title: AppStrings.payment,activeKey: controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.payment;
-            controller.update();
-          }),
-          drawerTile(title: AppStrings.transaction,activeKey: controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.transaction;
-            controller.update();
-          }),
-          drawerTile(title: AppStrings.privacy,activeKey:controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.privacy;
-            controller.update();
-          }),
-      
-          accountSettingHeading(),
-      
-          drawerTile(title: AppStrings.listing,activeKey: controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.listing;
-            controller.update();
-          },),
-          drawerTile(title: AppStrings.host,activeKey: controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.host;
-            controller.update();
-          }),
-          accountSettingHeading(),
-          drawerTile(title: AppStrings.darkMode,activeKey: controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.darkMode;
-            controller.update();
-          }),
-          drawerTile(title: AppStrings.update,activeKey:controller.activeScreen.value,onTap: () {
-            controller.activeScreen.value = AppStrings.update;
-            controller.update();
-          }),
-        ],
-      )),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            userProfile(context, controller),
+            AppSpacing.h20,
+            accountSettingHeading(),
+            drawerTile(
+              title: AppStrings.notification,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.notification;
+              },
+              trailing: notificationBadge("12"),
+            ),
+            drawerTile(
+              title: AppStrings.payment,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.payment;
+              },
+            ),
+            drawerTile(
+              title: AppStrings.transaction,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.transaction;
+              },
+            ),
+            drawerTile(
+              title: AppStrings.privacy,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.privacy;
+              },
+            ),
+            accountSettingHeading(),
+            drawerTile(
+              title: AppStrings.listing,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.listing;
+              },
+            ),
+            drawerTile(
+              title: AppStrings.host,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.host;
+              },
+            ),
+            accountSettingHeading(),
+            drawerTile(
+              title: AppStrings.darkMode,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.darkMode;
+              },
+            ),
+            drawerTile(
+              title: AppStrings.update,
+              activeKey: controller.activeScreen,
+              onTap: () {
+                controller.activeScreen = AppStrings.update;
+              },
+            ),
+          ],
+        ),
+      ),
     );
-
-
   }
 
-  Widget userProfile() => Padding(
+  Widget userProfile(BuildContext context, BaseProvider controller) => Padding(
     padding: AppSpacing.px16,
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +101,7 @@ class CustomDrawer extends StatelessWidget {
           decoration: BoxDecoration(
               color: AppColor.white,
               borderRadius: AppRadius.br25
-          ), child: Image.asset(AppAssets.icGirl),
+          ), child: Image.asset(AppAssets.icImage),
         ),
         AppSpacing.w15,
         Column(
@@ -92,11 +115,9 @@ class CustomDrawer extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: AppSpacing.s4),
           child: InkWell(onTap: () {
-            controller.animationController.reverse();
-          },child: Icon(CupertinoIcons.xmark,color: AppColor.white,size: 18,)),
+            controller.animationController?.reverse();
+          },child: const Icon(CupertinoIcons.xmark,color: AppColor.white,size: 18,)),
         ),
-
-
       ],
     ),
   );
@@ -127,14 +148,14 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 AppSpacing.w15,
                 Expanded(child: CustomText(text: title, fontSize: AppTypography.titleLarge.fontSize,)),
-                trailing ?? Icon(CupertinoIcons.right_chevron,color: AppColor.grey,size: 16,),
+                trailing ?? const Icon(CupertinoIcons.right_chevron,color: AppColor.grey,size: 16,),
               ],
             ),
           ),
         ),
       );
 
-  Widget accountSettingHeading()=> Padding(
+  Widget accountSettingHeading()=> const Padding(
     padding: AppSpacing.phv15_20,
     child: CustomText(text: AppStrings.accountSetting,color: AppColor.white,),
   );
@@ -142,7 +163,6 @@ class CustomDrawer extends StatelessWidget {
   Widget notificationBadge(String count)=>Container(
     height: 22,
     width: 30,
-
     decoration: BoxDecoration(
         color: AppColor.amber,
       borderRadius: AppRadius.br25

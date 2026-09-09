@@ -5,11 +5,10 @@ import 'package:assignment/core/theme/app_typography.dart';
 import 'package:assignment/core/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_color.dart';
+import '../core/theme/app_color.dart';
 
-
-class AccountView extends StatelessWidget {
-  const AccountView({Key? key}) : super(key: key);
+class AccountScreen extends StatelessWidget {
+  const AccountScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,14 +114,17 @@ class SettingItemWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText(text: setting.title,color: AppColor.white,fontSize: AppTypography.titleMedium.fontSize,fontWeight: AppTypography.titleMedium.fontWeight,),
-
+                CustomText(
+                  text: setting.title,
+                  color: AppColor.white,
+                  fontSize: AppTypography.titleMedium.fontSize,
+                  fontWeight: AppTypography.titleMedium.fontWeight,
+                ),
                 if (setting.subtitle.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: AppSpacing.s4),
-                    child: CustomText( text:
-                      setting.subtitle,
-
+                    child: CustomText(
+                      text: setting.subtitle,
                     ),
                   ),
               ],
@@ -145,7 +147,7 @@ class SettingItemWidget extends StatelessWidget {
               ),
             )
           else
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios,
               color: AppColor.grey600,
               size: 18,
